@@ -9,7 +9,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 //Project APIs
 Route::apiResource('/projects',  'ProjectController')->middleware('basicAuth');
-Route::get('projects/{project}/users',  'ProjectController@showMembers')->middleware('basicAuth');
+Route::get('projects/{project_id}/users',  'ProjectController@showMembers')->middleware('basicAuth');
 // Route::group(['prefix' => 'projects'], function () {
 //     Route::apiResource('/{project}/users',  'ProjectController@showMembers')->middleware('basicAuth');
 // });

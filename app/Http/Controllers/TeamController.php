@@ -7,11 +7,16 @@ use Illuminate\Http\Request;
 
 class TeamController extends Controller
 {
-    // TODO: make it God level
     public function index()
     {
-        $team = Team::all();
-        return $team;
+        $user = auth()->User();
+        if($user->role==3)
+        {
+            $team = Team::all();
+            return $team;
+        }else{
+            return "You are not god";
+        }
     }
 
     public function store(Request $request)
