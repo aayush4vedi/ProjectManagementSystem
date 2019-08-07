@@ -10,28 +10,27 @@ class TeamController extends Controller
     public function index()
     {
         $user = auth()->User();
-        if($user->role==3)
-        {
-            $team = Team::all();
-            return $team;
-        }else{
-            return "You are not god";
-        }
+        $this->authorize('godView', $user);
+        $team = Team::all();
+        return $team;
     }
 
     public function store(Request $request)
     {
+        $this->authorize('create',Team::class);
         $team = new Team([
             'title'=> $request->title,
             'lead_id'=> $request->lead_id
         ]);
         $team->save();
+        return 'success';
     }
 
-    //TODO: make it member-level
     public function show(Team $team)
     {
-        return $team;
+        // $team = Team::where('id', $id)->first();
+        $this->authorize('view',$team);
+        dd("kjj");
     }
 
     //TODO: edit team-members.
@@ -44,9 +43,14 @@ class TeamController extends Controller
     // TODO: make it God level
     public function destroy(Team $team)
     {
+        $user = auth()->User();
+        $this->authorize('godView', $user);
         $team->delete();
     }
     public function showMembers(Team $team){
+
+        $user = auth()->User();
+        $this->authorize('view', $user);
         $members = $team->users;
         return $members;
     }

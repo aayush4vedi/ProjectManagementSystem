@@ -28,6 +28,7 @@ class ProjectController extends Controller
             'lead_id'=> $request->lead_id
         ]);
         $project->save();
+        return 'success';
     }
 
     public function show(Project $project)
@@ -57,8 +58,9 @@ class ProjectController extends Controller
         $project->users()->attach($users);
         return 'success'; 
     }
-    public function showMembers($project_id){
-        $users = User::where('project_id', $project_id)->get();
-        return $users;
+    public function showMembers($project){
+        // $users = User::where('project_id', $project_id)->get();
+        // return $users;
+        return $project->users;
     }
 }

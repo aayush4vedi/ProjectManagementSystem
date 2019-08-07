@@ -49,8 +49,9 @@ class UserController extends Controller
         return 'User Created!';
     }
 
-    public function show($user)
+    public function show(User $user)
     {
+        $this->authorize('view',$user);
         return $user;
     }
     public function update(Request $request,User $user)
