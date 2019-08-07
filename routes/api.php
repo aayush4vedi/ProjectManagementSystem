@@ -9,6 +9,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 //Project APIs
 Route::apiResource('/projects',  'ProjectController')->middleware('basicAuth');
+Route::post('projects/addMember/{project}',  'ProjectController@addMember')->middleware('basicAuth');
 Route::get('projects/{project_id}/users',  'ProjectController@showMembers')->middleware('basicAuth');
 // Route::group(['prefix' => 'projects'], function () {
 //     Route::apiResource('/{project}/users',  'ProjectController@showMembers')->middleware('basicAuth');
@@ -26,25 +27,6 @@ Route::get('team/{team}/users',  'TeamController@showMembers')->middleware('basi
 Route::apiResource('/user',  'UserController')->middleware('basicAuth');
 
 //new user register authentication
-Route::post('/register',function (Request $request){
-    $validatedData = $request->validate([
-        'name' => 'required',
-        'password' => 'required|min:2',
-        'email' => 'required|email',
-        'role' => 'required'
-    ]);
-    $user = new User();
-    $user->name = request('name');
-    $user->password = bcrypt(request('password'));
-    $user->email = request('email');
-    $user->role = request('role');
-    $user->project_id;
-    $user->team_id;
-    $user->contact = request('contact');
-    $user->gender = request('gender');
-    $user->save();
-    return “good”;
- });
 
  //invite APIs
 //  Route::group(['prefix' => 'user'], function () {

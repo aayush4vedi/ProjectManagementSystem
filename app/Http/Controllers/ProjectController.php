@@ -50,12 +50,14 @@ class ProjectController extends Controller
     {
         $project->delete();
     }
-    public function showMembers( $project_id){
+    public function addMember(Request $request, Project $project){
         // $members = $project->users;
         // return $members;
-        // $users = User::find($project->id);
-        // $project->users()->attach($users);
-        // return 'success'; 
+        $users = User::find($request->user_id);
+        $project->users()->attach($users);
+        return 'success'; 
+    }
+    public function showMembers($project_id){
         $users = User::where('project_id', $project_id)->get();
         return $users;
     }

@@ -27,9 +27,26 @@ class UserController extends Controller
             $user->delete();
         }
     }
+    // TODO: make it God-level
     public function store(Request $request)
     {
-        //no need, as /register exists
+        $validatedData = $request->validate([
+            'name' => 'required',
+            'password' => 'required|min:2',
+            'email' => 'required|email',
+            'role' => 'required'
+        ]);
+        $user = new User();
+        $user->name = request('name');
+        $user->password = bcrypt(request('password'));
+        $user->email = request('email');
+        $user->role = request('role');
+        $user->project_id;
+        $user->team_id;
+        $user->contact = request('contact');
+        $user->gender = request('gender');
+        $user->save();
+        return 'User Created!';
     }
 
     public function show($user)
