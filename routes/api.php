@@ -1,0 +1,62 @@
+<?php
+
+use Illuminate\Http\Request;
+use App\User;
+
+Route::middleware('auth:api')->get('/user', function (Request $request) {
+    return $request->user();
+});
+
+//Project APIs
+Route::apiResource('/projects',  'ProjectController')->middleware('basicAuth');
+Route::group(['prefix' => 'projects'], function () {
+    Route::apiResource('/{project}/users',  'UserController')->middleware('basicAuth');
+});
+
+
+//Team APIs
+Route::apiResource('/team',  'TeamController')->middleware('basicAuth');
+Route::group(['prefix' => 'team'], function () {
+    Route::apiResource('/{project}/users',  'UserController')->middleware('basicAuth');
+});
+
+//user profile APIs
+Route::apiResource('/user',  'UserController')->middleware('basicAuth');
+
+//new user register authentication
+Route::post('/register',function (Request $request){
+    $validatedData = $request->validate([
+        'name' => 'required',
+        'password' => 'required|min:2',
+        'email' => 'required|email',
+        'role' => 'required'
+    ]);
+    $user = new User();
+    $user->name = request('name');
+    $user->password = bcrypt(request('password'));
+    $user->email = request('email');
+    $user->role = request('role');
+    $user->project_id;
+    $user->team_id;
+    $user->contact = request('contact');
+    $user->gender = request('gender');
+    $user->save();
+    return “good”;
+ });
+
+ //invite APIs
+//  Route::group(['prefix' => 'user'], function () {
+//     Route::apiResource('/{user}/sentInvites',  'SentInvitesController')->middleware('basicAuth');
+// });
+// Route::group(['prefix' => 'user'], function () {
+//     Route::apiResource('/{user}/receivedInvites',  'ReceivedInvitesController')->middleware('basicAuth');
+// });
+Route::get('invite', 'InviteController@invite')->name('invite')->middleware('basicAuth');;
+Route::post('invite', 'InviteController@process')->name('process')->middleware('basicAuth');;
+// {token} is a required parameter that will be exposed to us in the controller method
+Route::get('accept/{token}', 'InviteController@accept')->name('accept')->middleware('basicAuth');;
+
+
+
+
+
