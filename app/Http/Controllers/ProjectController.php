@@ -27,8 +27,13 @@ class ProjectController extends Controller
     //TODO: make it member-level
     public function show(Project $project)
     {
-        return $project;
+        // return $project;
+        $users = User::find($project->id);
+        $project->users()->attach($users);
+        return 'success'; 
     }
+
+
 
     public function update(Request $request, Project $project)
     {
@@ -41,5 +46,9 @@ class ProjectController extends Controller
     public function destroy(Project $project)
     {
         $project->delete();
+    }
+    public function showMembers(Project $project){
+        $members = $project->users;
+        return $members;
     }
 }

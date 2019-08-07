@@ -9,16 +9,18 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 //Project APIs
 Route::apiResource('/projects',  'ProjectController')->middleware('basicAuth');
-Route::group(['prefix' => 'projects'], function () {
-    Route::apiResource('/{project}/users',  'UserController')->middleware('basicAuth');
-});
+Route::get('projects/{project}/users',  'ProjectController@showMembers')->middleware('basicAuth');
+// Route::group(['prefix' => 'projects'], function () {
+//     Route::apiResource('/{project}/users',  'ProjectController@showMembers')->middleware('basicAuth');
+// });
 
 
 //Team APIs
 Route::apiResource('/team',  'TeamController')->middleware('basicAuth');
-Route::group(['prefix' => 'team'], function () {
-    Route::apiResource('/{project}/users',  'UserController')->middleware('basicAuth');
-});
+Route::get('team/{team}/users',  'TeamController@showMembers')->middleware('basicAuth');
+// Route::group(['prefix' => 'team'], function () {
+//     Route::apiResource('/{team}/users',  'TeamController@showMembers')->middleware('basicAuth');
+// });
 
 //user profile APIs
 Route::apiResource('/user',  'UserController')->middleware('basicAuth');

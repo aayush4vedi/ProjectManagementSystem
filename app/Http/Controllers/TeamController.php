@@ -41,4 +41,8 @@ class TeamController extends Controller
     {
         $team->delete();
     }
+    public function showMembers(Team $team){
+        $members = $team->users;
+        return $members;
+    }
 }

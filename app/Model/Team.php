@@ -3,7 +3,8 @@
 namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Model\User;
+use App\User;
+
 class Team extends Model
 {
     protected $fillable = [
